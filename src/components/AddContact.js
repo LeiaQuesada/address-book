@@ -1,6 +1,6 @@
 import React from "react";
 import { Col, Row, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import favicon from "./favicon.png";
+import favicon from "../favicon.png";
 
 const AddContact = () => {
   return (
