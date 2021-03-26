@@ -16,11 +16,25 @@ const cn = {
 
 const db = pgp(cn);
 
+// sends get request to pg
 app.get("/", async (req, res) => {
   try {
     const contacts = await db.any("SELECT * FROM contacts;", [true]);
-    console.log({ contacts });
     res.json(contacts);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+// route to add data
+app.post("/addcontact", async (req, res) => {
+  try {
+    const { first_name, last_name, phone_number, email } = req.body;
+    const newContact = await db.one(
+      `INSERT INTO contacts VALUES($1, $2, $3, $4) RETURNING *;`,
+      [first_name, last_name, phone_number, email]
+    );
+    res.json(newContact.rows[0]);
   } catch (err) {
     console.error(err.message);
   }
